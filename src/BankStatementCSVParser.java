@@ -20,7 +20,11 @@ public class BankStatementCSVParser {
 
         return new BankTransaction(date, amount, description);
     }
-
+    
+    // parseLinesFromCSV는 List<String> 타입으로 들어온 데이터 한줄 한줄을 parseFromCSV를 이용하여
+    // bankTransactions형 객체의 리스트인 List<BankTransaction> 타입 데이터로 반환함
+    // 이 두 메서드는 CSV 파일 파싱이라는 하나의 목표를 향해 긴밀하게 상호작용하기 때문에 
+    // BankStatementCSVParser 클래스는 응집도가 높다고 평가할 수 있음
     public List<BankTransaction> parseLinesFromCSV(final List<String> lines){
         final List<BankTransaction> bankTransactions = new ArrayList<>();
         for(final String line : lines){
