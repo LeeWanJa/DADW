@@ -1,5 +1,6 @@
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,8 +8,15 @@ public class BankStatementCSVParser implements BankStatementParser {
     private static final DateTimeFormatter DATE_PATTERN = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
     // BankStatementParser의 추상 메서드 parseFrom을 구체적으로 구현했으므로 private 접근 제어자는 쓸 수 없음
-    public BankTransaction parseFrom(final String line){
-        final String[] columns = line.split(",");
+    public BankTransaction parseFrom(final String line)
+            throws DateTimeParseException, NumberFormatException, ArrayIndexOutOfBoundsException{
+        final String[] columns = line.split(",", 3);
+        columns[2] = columns[2].split(",")[0];
+
+        // 모든 colums 요소 앞 뒤 공백 제거
+        int i = 0;
+        for(String str : columns)
+            columns[i++] = str.strip();
 
         final LocalDate date = LocalDate.parse(columns[0], DATE_PATTERN);
         final double amount = Double.parseDouble(columns[1]);
@@ -20,6 +28,9 @@ public class BankStatementCSVParser implements BankStatementParser {
     public List<BankTransaction> parseLinesFrom(final List<String> lines){
         final List<BankTransaction> bankTransactions = new ArrayList<>();
         for(final String line : lines){
+            if(line.isEmpty())
+                continue;
+
             bankTransactions.add(parseFrom(line));
         }
         return bankTransactions;
