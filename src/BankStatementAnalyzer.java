@@ -31,5 +31,9 @@ public class BankStatementAnalyzer {
 
         System.out.println("The total salary received is "
                 + bankStatementProcessor.calculateTotalForCategory("Salary"));
+
+        // 특정 날짜 범위에서 최대, 최소 거래 내역을 찾는 다양한 집계 연산
+        System.out.println("Maximum and minimum deposit and withdrawal details from January to February = "
+                + bankStatementProcessor.findMaxMinTransactionDetails(Month.JANUARY, Month.FEBRUARY));
     }
 }
