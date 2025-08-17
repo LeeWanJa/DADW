@@ -35,5 +35,9 @@ public class BankStatementAnalyzer {
         // 특정 날짜 범위에서 최대, 최소 거래 내역을 찾는 다양한 집계 연산
         System.out.println("Maximum and minimum deposit and withdrawal details from January to February = "
                 + bankStatementProcessor.findMaxMinTransactionDetails(Month.JANUARY, Month.FEBRUARY));
+
+        // 월별, 설명별 지출 그룹화 히스토그램
+        System.out.println("Month Histogram; " + bankStatementProcessor.MonthHistogram());
+        System.out.println("Description Histogram; " + bankStatementProcessor.DescriptionHistogram());
     }
 }
