@@ -1,4 +1,5 @@
 import java.time.Month;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -105,5 +106,27 @@ public class BankStatementProcessor {
         }
 
         return desMap;
+    }
+
+
+    // 특정 금액 이상의 모든 입출력 내역을 검색하는 메서드
+    public List<BankTransaction> findTransactionsGreaterThanEquals(final int amount){
+        final List<BankTransaction> result = new ArrayList<>();
+        for(final BankTransaction bankTransaction : bankTransactions){
+            if(bankTransaction.getAmount() >= amount)
+                result.add(bankTransaction);
+        }
+        return result;
+    }
+
+    // 특정 월을 검색하는 메서드
+    // 이런식의 작성은 중복을 야기함
+    public List<BankTransaction> findTransactionsInMonth(final Month month){
+        final List<BankTransaction> result = new ArrayList<>();
+        for(final BankTransaction bankTransaction : bankTransactions){
+            if(bankTransaction.getDate().getMonth() == month)
+                result.add(bankTransaction);
+        }
+        return result;
     }
 }
