@@ -109,15 +109,13 @@ public class BankStatementProcessor {
     }
 
 
-    // 중복코드 문제 해결
-    // 특정 월이나 금액으로 입출금 내역 검색하기
-    public List<BankTransaction> findTransactionsInMonthAndGreater(final Month month, final int amount){
+    // 개방/폐쇄 원칙 적용
+    public List<BankTransaction> findTransactions(final BankTransactionFilter bankTransactionFilter){
         final List<BankTransaction> result = new ArrayList<>();
         for(final BankTransaction bankTransaction : bankTransactions){
-            if(bankTransaction.getDate().getMonth() == month && bankTransaction.getAmount() >= amount)
+            if(bankTransactionFilter.test(bankTransaction))
                 result.add(bankTransaction);
         }
-
         return result;
     }
 }
