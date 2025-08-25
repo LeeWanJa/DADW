@@ -10,13 +10,16 @@ public class BankStatementCSVParser implements BankStatementParser {
     // BankStatementParser의 추상 메서드 parseFrom을 구체적으로 구현했으므로 private 접근 제어자는 쓸 수 없음
     public BankTransaction parseFrom(final String line)
             throws DateTimeParseException, NumberFormatException, ArrayIndexOutOfBoundsException{
-        final String[] columns = line.split(",", 3);
-        columns[2] = columns[2].split(",")[0];
+        final String[] columns = line.split(",");
 
-        // 모든 colums 요소 앞 뒤 공백 제거
-        int i = 0;
-        for(String str : columns)
-            columns[i++] = str.strip();
+        BankStatementValidator validator = new BankStatementValidator(columns[2], columns[0], columns[1]);
+        Notification notification = validator.validate();
+
+        // 오류가 존재한다면 빈 객체 반환
+        if(notification.hasErrors()){
+            System.out.println(notification.getErrors());
+            return new BankTransaction(LocalDate.now(), 0.0, "");
+        }
 
         final LocalDate date = LocalDate.parse(columns[0], DATE_PATTERN);
         final double amount = Double.parseDouble(columns[1]);
